@@ -41,6 +41,10 @@ Repository Pages settings should use **GitHub Actions** as the build and deploym
 - Live open/closed status calculated in the America/Los_Angeles time zone from the listed weekly hours
 - Mobile navigation, accessible controls, reduced-motion support and a lightweight custom cursor accent on fine pointers
 
+## Photography
+
+The current editorial images are stock-photo placeholders used to establish the visual direction. Replace them with salon-approved interior and nail-work photography before treating the gallery as a portfolio of ZhuZhu's own work.
+
 ## Salon details
 
 **ZhuZhu Beauty & Nail Salon**  
