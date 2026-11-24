@@ -1,95 +1,103 @@
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { useRef, useState } from "react";
 import { GALLERY } from "../data.js";
 
 export default function Gallery() {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const activeItem = activeIndex === null ? null : GALLERY[activeIndex];
+  const trackRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    if (activeIndex === null) return undefined;
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") setActiveIndex(null);
-      if (event.key === "ArrowRight") setActiveIndex((current) => (current + 1) % GALLERY.length);
-      if (event.key === "ArrowLeft") setActiveIndex((current) => (current - 1 + GALLERY.length) % GALLERY.length);
-    };
-    document.addEventListener("keydown", onKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [activeIndex]);
+  const scrollToCard = (direction) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const nextIndex = Math.max(0, Math.min(GALLERY.length - 1, activeIndex + direction));
+    const card = track.children[nextIndex];
+    card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    setActiveIndex(nextIndex);
+  };
+
+  const handleScroll = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    const cards = Array.from(track.children);
+    const center = track.getBoundingClientRect().left + track.clientWidth / 2;
+    let closest = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    cards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.left + rect.width / 2;
+      const distance = Math.abs(center - cardCenter);
+      if (distance < closestDistance) {
+        closest = index;
+        closestDistance = distance;
+      }
+    });
+    setActiveIndex(closest);
+  };
 
   return (
-    <section className="gallery section-pad" id="gallery">
-      <div className="gallery-heading">
-        <div className="eyebrow"><span className="eyebrow-line" />THE ZHUZHU LOOKBOOK</div>
-        <h2 data-reveal="headline">Artistry in every<br /><em>little detail.</em></h2>
-        <p data-reveal="fade">An evolving collection of shapes, finishes and thoughtful details. Find a little inspiration for your next visit.</p>
+    <section className="gallery-section section-space" id="gallery">
+      <motion.div
+        className="section-heading"
+        initial={{ opacity: 0, y: 22 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ type: "spring", stiffness: 100, damping: 20 }}
+      >
+        <span className="eyebrow"><i /> THE ZHUZHU LOOKBOOK</span>
+        <h2>Artistry in every<br /><em>little detail.</em></h2>
+        <p>A little inspiration for your next visit. Swipe to explore the details, shapes and finishes we love.</p>
+      </motion.div>
+
+      <div className="gallery-controls" aria-label="Lookbook controls">
+        <span>0{activeIndex + 1} <i>/</i> 0{GALLERY.length}</span>
+        <div>
+          <button type="button" onClick={() => scrollToCard(-1)} aria-label="Previous look" disabled={activeIndex === 0}><ArrowLeft size={17} /></button>
+          <button type="button" onClick={() => scrollToCard(1)} aria-label="Next look" disabled={activeIndex === GALLERY.length - 1}><ArrowRight size={17} /></button>
+        </div>
       </div>
 
-      <div className="gallery-grid">
+      <div className="gallery-track" ref={trackRef} onScroll={handleScroll} aria-label="Swipeable nail artistry gallery">
         {GALLERY.map((item, index) => (
-          <button
-            className={"gallery-card " + item.shape}
-            type="button"
+          <motion.article
+            className="gallery-card"
             key={item.title}
-            onClick={() => setActiveIndex(index)}
-            aria-label={"View " + item.title}
-            data-cursor="interactive"
+            layout
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ type: "spring", stiffness: 100, damping: 20, delay: index * 0.06 }}
           >
-            <span className="gallery-card-image">
+            <div className="gallery-card-image">
               <img src={item.src} alt={item.alt} loading="lazy" />
-            </span>
-            <span className="gallery-card-index">0{index + 1}</span>
-            <span className="gallery-card-overlay">
-              <span className="gallery-card-title">{item.title}</span>
-              <span className="gallery-card-action">VIEW ARTISTRY <ArrowUpRight size={14} /></span>
-            </span>
-          </button>
+              <span className="gallery-film-grain" aria-hidden="true" />
+              <span className="gallery-card-number">0{index + 1}</span>
+            </div>
+            <div className="gallery-card-caption">
+              <div><span>{item.category}</span><h3>{item.title}</h3></div>
+              <span className="gallery-card-arrow"><ArrowUpRight size={18} /></span>
+            </div>
+          </motion.article>
         ))}
       </div>
 
-      <div className="gallery-footer">
-        <span>THE ART OF A PERSONAL TOUCH</span>
-        <span className="gallery-footer-line" />
-        <span>CURATED BY ZHUZHU</span>
+      <div className="gallery-dots" aria-label="Gallery position">
+        {GALLERY.map((item, index) => (
+          <button
+            key={item.title}
+            type="button"
+            className={activeIndex === index ? "is-active" : ""}
+            onClick={() => {
+              const card = trackRef.current?.children[index];
+              card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+              setActiveIndex(index);
+            }}
+            aria-label={"Show look " + (index + 1)}
+            aria-current={activeIndex === index ? "true" : undefined}
+          />
+        ))}
       </div>
-
-      <AnimatePresence>
-        {activeItem && (
-          <motion.div
-            className="gallery-lightbox"
-            role="dialog"
-            aria-modal="true"
-            aria-label={activeItem.title}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActiveIndex(null)}
-          >
-            <motion.div
-              className="gallery-lightbox-panel"
-              initial={{ opacity: 0, scale: 0.94, y: 24 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 16 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <img src={activeItem.src} alt={activeItem.alt} />
-              <div className="gallery-lightbox-caption">
-                <div><span>THE ZHUZHU LOOKBOOK</span><strong>{activeItem.title}</strong></div>
-                <span>0{activeIndex + 1} / 0{GALLERY.length}</span>
-              </div>
-              <button className="lightbox-close" type="button" onClick={() => setActiveIndex(null)} aria-label="Close image"><X size={20} /></button>
-              <button className="lightbox-prev" type="button" onClick={() => setActiveIndex((activeIndex - 1 + GALLERY.length) % GALLERY.length)} aria-label="Previous image"><ArrowLeft size={19} /></button>
-              <button className="lightbox-next" type="button" onClick={() => setActiveIndex((activeIndex + 1) % GALLERY.length)} aria-label="Next image"><ArrowRight size={19} /></button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

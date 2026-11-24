@@ -1,58 +1,57 @@
 # ZhuZhu Beauty & Nail Salon
 
-An editorial, quiet-luxury website for ZhuZhu Beauty & Nail Salon in North Hollywood, California.
+A mobile-first, quiet-luxury website for ZhuZhu Beauty & Nail Salon in North Hollywood, California.
 
 ## Stack
 
 - React 19 + Vite
-- Framer Motion for micro-interactions, magnetic booking links and image transitions
-- GSAP + ScrollTrigger for reveal animations and scroll-linked effects
-- Lenis connected to the GSAP ticker for smooth scrolling
-- Lucide icons and responsive custom CSS
+- Tailwind CSS v4 through the official Vite plugin
+- Framer Motion for spring interactions, scroll reveals, accordion layout and swipe gestures
+- Lenis for smooth wheel scrolling (native touch scrolling is preserved on phones)
+- Lucide icons
 
-## Local development
+## Development
 
-```bash
 npm install
 npm run dev
-```
 
 Production build:
 
-```bash
 npm run build
 npm run preview
-```
 
-## Booking integration
+## Booking destination
 
-All booking CTAs share the reusable `src/components/BookingButton.jsx` component. It accepts a `bookingUrl` prop and opens the external booking provider in a new tab.
+All booking actions use src/components/BookingWidget.jsx. It accepts a bookingUrl prop.
 
-ZhuZhu's currently verified booking destination is the salon's Zoca page:
+ZhuZhu's currently published booking page is Zoca:
 
 https://zhuzhubeautynorthhollywood.zoca.com/booking
 
-To change providers, update `BOOKING_URL` in `src/data.js` or pass a different `bookingUrl` to an individual `BookingButton`.
+To switch to Booksy, pass the salon's confirmed Booksy profile URL to bookingUrl or update BOOKING_URL in src/data.js.
 
-Booksy's official website widget uses a unique script generated inside the business's own Booksy account (Business Settings → Online Booking → Your Website). The salon's Booksy-specific widget code/profile URL is not currently present in this repository, so the site intentionally uses the verified Zoca booking destination instead of a guessed Booksy URL.
+Booksy also offers an embedded website widget, but its code is unique to each business. The owner must copy it from their own Booksy account under Business Settings → Online Booking → Your Website. No ZhuZhu-specific Booksy widget code or Booksy profile URL was available when this version was built.
 
-## Motion and accessibility
+## Mobile experience
 
-- Hero mouse parallax activates only for mouse pointers.
-- Custom cursor is disabled on touch devices and when reduced motion is preferred.
-- GSAP scroll reveals respect reduced-motion preferences.
-- Interactive gallery opens an accessible lightbox with Escape and arrow-key controls.
-- Booking actions are external links; there are no embedded booking forms or locally collected booking details.
+- Designed mobile-first around a 390px viewport and thumb-friendly 56px+ actions
+- Native horizontal swipe carousel with scroll snapping
+- No custom cursor or hover-dependent controls
+- Smart header hides while scrolling down and returns while scrolling up
+- Mobile booking bar respects iPhone safe-area insets
+- Reduced-motion preference support
+- Lenis smooths wheel scrolling on desktop while native touch scrolling remains enabled on mobile
 
-## Photography
+## Content notes
 
-The editorial images are currently illustrative stock-photo placeholders. Replace them with salon-approved photographs before presenting the gallery as ZhuZhu's own portfolio.
+- Current weekly hours are copied from ZhuZhu's published Zoca listing and are maintained in src/data.js. Confirm special/holiday hours with the salon; the listing shows an unusual Wednesday closing time.
+- Service prices are not published in the verified source data, so the accordion directs guests to the current booking menu instead of displaying invented prices.
+- The salon's verified Instagram/Facebook profile URLs were not found. Add them to SOCIAL_LINKS in src/data.js; the footer will show only configured links.
+- Editorial photography is currently illustrative stock photography. Replace it with salon-approved photos before presenting the lookbook as a gallery of ZhuZhu's own work.
 
-## Salon details
+## Salon
 
 **ZhuZhu Beauty & Nail Salon**  
 13104 1/2 Sherman Way  
 North Hollywood, CA 91605  
 (818) 863-3111
-
-Business hours are maintained in `src/data.js`. Confirm holiday and special hours with the salon.
