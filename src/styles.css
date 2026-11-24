@@ -929,3 +929,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .hero-image { animation: none !important; transform: none !important; }
   .gallery-card img, .service-image img { transition: none !important; }
 }
+
+
+@media (max-width: 780px) {
+  .mobile-book-link {
+    display: block;
+    margin-top: 13px;
+    padding: 12px 0 0;
+    color: inherit;
+    background: transparent;
+  }
+  .mobile-book-link .booking-button { width: 100%; }
+}
