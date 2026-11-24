@@ -382,7 +382,6 @@
 }
 
 .services-section {
-  @apply section-space;
   background: #F7F7F2;
 }
 .services-section .section-heading { margin-bottom: 36px; }
@@ -553,7 +552,6 @@
 .gallery-dots button.is-active { width: 25px; background: #D4AF37; }
 
 .reviews-section {
-  @apply section-space;
   color: #fff;
   background:
     radial-gradient(ellipse at 82% 20%, rgba(212,175,55,.12), transparent 42%),
