@@ -1,14 +1,14 @@
 # ZhuZhu Beauty & Nail Salon
 
-A quiet-luxury, mobile-first website for ZhuZhu Beauty & Nail Salon in North Hollywood, California.
+An editorial, quiet-luxury website for ZhuZhu Beauty & Nail Salon in North Hollywood, California.
 
 ## Stack
 
 - React 19 + Vite
-- Framer Motion for restrained transitions
-- Lenis for smooth scrolling (respects reduced-motion preferences)
-- Lucide icons
-- Custom responsive CSS with no utility framework runtime
+- Framer Motion for micro-interactions, magnetic booking links and image transitions
+- GSAP + ScrollTrigger for reveal animations and scroll-linked effects
+- Lenis connected to the GSAP ticker for smooth scrolling
+- Lucide icons and responsive custom CSS
 
 ## Local development
 
@@ -17,33 +17,36 @@ npm install
 npm run dev
 ```
 
-Create a production build with:
+Production build:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Deployment
+## Booking integration
 
-The GitHub Actions workflow at `.github/workflows/deploy.yml` builds the Vite app and deploys the `dist` directory to GitHub Pages whenever `main` is updated. The Vite base path is configured for the project site:
+All booking CTAs share the reusable `src/components/BookingButton.jsx` component. It accepts a `bookingUrl` prop and opens the external booking provider in a new tab.
 
-`https://b-1-o.github.io/zhu-zhu/`
+ZhuZhu's currently verified booking destination is the salon's Zoca page:
 
-Repository Pages settings should use **GitHub Actions** as the build and deployment source.
+https://zhuzhubeautynorthhollywood.zoca.com/booking
 
-## Site features
+To change providers, update `BOOKING_URL` in `src/data.js` or pass a different `bookingUrl` to an individual `BookingButton`.
 
-- Responsive editorial hero, philosophy, featured services, gallery and guest testimonials
-- Interactive service accordion with matching imagery
-- Direct links to the salon's online booking page, phone and map directions
-- Concierge-style appointment enquiry that opens a pre-filled SMS draft; it does not send without the visitor's confirmation
-- Live open/closed status calculated in the America/Los_Angeles time zone from the listed weekly hours
-- Mobile navigation, accessible controls, reduced-motion support and a lightweight custom cursor accent on fine pointers
+Booksy's official website widget uses a unique script generated inside the business's own Booksy account (Business Settings → Online Booking → Your Website). The salon's Booksy-specific widget code/profile URL is not currently present in this repository, so the site intentionally uses the verified Zoca booking destination instead of a guessed Booksy URL.
+
+## Motion and accessibility
+
+- Hero mouse parallax activates only for mouse pointers.
+- Custom cursor is disabled on touch devices and when reduced motion is preferred.
+- GSAP scroll reveals respect reduced-motion preferences.
+- Interactive gallery opens an accessible lightbox with Escape and arrow-key controls.
+- Booking actions are external links; there are no embedded booking forms or locally collected booking details.
 
 ## Photography
 
-The current editorial images are stock-photo placeholders used to establish the visual direction. Replace them with salon-approved interior and nail-work photography before treating the gallery as a portfolio of ZhuZhu's own work.
+The editorial images are currently illustrative stock-photo placeholders. Replace them with salon-approved photographs before presenting the gallery as ZhuZhu's own portfolio.
 
 ## Salon details
 
@@ -52,6 +55,4 @@ The current editorial images are stock-photo placeholders used to establish the 
 North Hollywood, CA 91605  
 (818) 863-3111
 
-Online booking: https://zhuzhubeautynorthhollywood.zoca.com/booking
-
-Business hours are maintained in `src/data.js`. Confirm holiday or special hours with the salon.
+Business hours are maintained in `src/data.js`. Confirm holiday and special hours with the salon.

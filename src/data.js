@@ -1,4 +1,6 @@
+// ZhuZhu currently uses its verified Zoca booking page. Replace this only when the salon supplies a confirmed Booksy profile/widget.
 export const BOOKING_URL = "https://zhuzhubeautynorthhollywood.zoca.com/booking";
+export const BOOKING_PROVIDER = "Zoca";
 export const SALON_PHONE = "(818) 863-3111";
 export const PHONE_LINK = "tel:+18188633111";
 export const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=13104%201%2F2%20Sherman%20Way%2C%20North%20Hollywood%2C%20CA%2091605";
