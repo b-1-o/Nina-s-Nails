@@ -1,83 +1,126 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, Clock3, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
-import { HOURS, MAPS_URL, MAP_EMBED_URL, PHONE_LINK, SALON_PHONE, SERVICES, TESTIMONIALS } from "../data.js";
-import BookingButton from "./BookingButton.jsx";
+import { ArrowDown, ArrowUpRight, ArrowLeft, ArrowRight, Clock3, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
+import { HOURS, MAPS_URL, PHONE_LINK, SALON_ADDRESS, SALON_PHONE, SERVICES, TESTIMONIALS } from "../data.js";
+import BookingWidget from "./BookingWidget.jsx";
 
-function SectionIntro({ label, title, children }) {
+function Reveal({ children, className = "", delay = 0 }) {
   return (
-    <div className="section-intro">
-      <div className="eyebrow"><span className="eyebrow-line" />{label}</div>
-      <h2 data-reveal="headline">{title}</h2>
-      {children && <p data-reveal="fade">{children}</p>}
-    </div>
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ type: "spring", stiffness: 100, damping: 20, delay }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
 export function Philosophy() {
   return (
-    <section className="philosophy section-pad" id="philosophy">
-      <div className="philosophy-copy">
-        <div className="eyebrow" data-reveal="fade"><span className="eyebrow-line" />A PLACE TO EXHALE</div>
-        <h2 data-reveal="headline">Beauty is a ritual.<br /><em>Care is our craft.</em></h2>
-        <p className="philosophy-lead" data-reveal="fade">Welcome to ZhuZhu — where considered beauty meets the warmth of being looked after.</p>
-        <p data-reveal="fade">Led by Lika and Avo, we have created a welcoming sanctuary built around personal attention, thoughtful conversation and the little details that make a visit feel special. Come as you are; leave feeling cared for.</p>
-        <p data-reveal="fade">Enjoy a coffee, share an idea or simply take a moment for yourself. We will take care of the rest.</p>
-        <div className="founders-signature" data-reveal="fade"><span className="signature-script">Lika & Avo</span><span className="signature-caption">WITH WARMTH, ALWAYS</span></div>
-        <a className="inline-link" href="#visit" data-cursor="interactive">Come say hello <ArrowUpRight size={15} /></a>
-      </div>
-      <div className="philosophy-visual" data-reveal="image">
-        <div className="philosophy-photo-wrap">
-          <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1200&q=88" alt="A serene spa interior with natural textures and soft light" loading="lazy" />
+    <section className="about-section section-space marble-surface" id="about">
+      <Reveal className="about-copy">
+        <span className="eyebrow"><i /> A PLACE TO EXHALE</span>
+        <h2>Beauty is a ritual.<br /><em>Care is our craft.</em></h2>
+        <p className="about-lead">Welcome to ZhuZhu. We believe self-care is a ritual.</p>
+        <p>
+          Led by Lika and Avo, we have created a sanctuary where medical-grade
+          sterilization with an autoclave meets the warmth of a family home.
+          Every detail is considered, every guest is welcomed personally, and
+          every visit is a moment to slow down.
+        </p>
+        <p>Enjoy a cup of coffee while we craft your bespoke set.</p>
+        <div className="about-signature">
+          <span>Lika & Avo</span>
+          <small>WITH WARMTH, ALWAYS</small>
         </div>
-        <div className="philosophy-photo-caption"><span>THE ZHUZHU FEELING</span><span>01 / 05</span></div>
-        <div className="sterile-seal" data-reveal="fade"><span className="seal-icon"><ShieldCheck size={20} strokeWidth={1.25} /></span><span className="seal-title">CARE YOU CAN TRUST</span><span className="seal-copy">Tools sterilized in a<br />medical-grade autoclave</span></div>
-      </div>
+      </Reveal>
+
+      <Reveal className="about-visual" delay={0.08}>
+        <img
+          src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1100&q=85"
+          alt="A calm salon-inspired interior with natural textures and soft light"
+          loading="lazy"
+        />
+        <div className="about-visual-grain" aria-hidden="true" />
+        <div className="about-stamp">
+          <ShieldCheck size={21} strokeWidth={1.4} />
+          <span>CARE YOU CAN TRUST</span>
+          <small>Medical-grade tool sterilization</small>
+        </div>
+        <span className="about-image-caption">THE ZHUZHU FEELING · NORTH HOLLYWOOD</span>
+      </Reveal>
     </section>
   );
 }
 
 export function Services() {
   const [active, setActive] = useState(0);
-  const selected = SERVICES[active];
+
   return (
-    <section className="services section-pad" id="services">
-      <div className="services-heading">
-        <SectionIntro label="THE SERVICE EDIT" title={<>A little luxury.<br /><em>A lasting feeling.</em></>}>
-          Thoughtful treatments, tailored to your style. Every appointment begins with listening.
-        </SectionIntro>
-        <p className="services-heading-note" data-reveal="fade">An individual approach, a considered finish, and time set aside just for you.</p>
+    <section className="services-section section-space" id="services">
+      <Reveal className="section-heading">
+        <span className="eyebrow"><i /> THE SERVICE EDIT</span>
+        <h2>A little luxury.<br /><em>A lasting feeling.</em></h2>
+        <p>Thoughtful treatments, tailored to your style. Every appointment begins with listening.</p>
+      </Reveal>
+
+      <div className="services-list">
+        {SERVICES.map((service, index) => {
+          const isOpen = active === index;
+          return (
+            <motion.article
+              className={"service-item" + (isOpen ? " is-open" : "")}
+              key={service.id}
+              layout
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            >
+              <button
+                className="service-trigger"
+                type="button"
+                onClick={() => setActive(isOpen ? -1 : index)}
+                aria-expanded={isOpen}
+                aria-controls={"service-panel-" + service.id}
+              >
+                <span className="service-number">{service.number}</span>
+                <span className="service-name">{service.title}</span>
+                <motion.span
+                  className="service-toggle"
+                  animate={{ rotate: isOpen ? 45 : 0 }}
+                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                >
+                  <ArrowDown size={19} strokeWidth={1.4} />
+                </motion.span>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    id={"service-panel-" + service.id}
+                    className="service-panel"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                  >
+                    <div className="service-panel-inner">
+                      <p>{service.description}</p>
+                      <div className="service-panel-bottom">
+                        <span>{service.priceNote}</span>
+                        <BookingWidget label="View booking options" showIcon={false} className="service-booking-link" />
+                      </div>
+                      <img src={service.image} alt={service.alt} loading="lazy" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.article>
+          );
+        })}
       </div>
-      <div className="services-layout">
-        <div className="services-list" role="list" aria-label="Featured services">
-          {SERVICES.map((service, index) => {
-            const isActive = active === index;
-            return (
-              <div className={"service-item " + (isActive ? "is-active" : "")} key={service.id} role="listitem" data-reveal="fade">
-                <button className="service-trigger" type="button" aria-expanded={isActive} aria-controls={"service-panel-" + service.id} onMouseEnter={() => setActive(index)} onFocus={() => setActive(index)} onClick={() => setActive(index)} data-cursor="interactive">
-                  <span className="service-number">{service.number}</span><span className="service-title">{service.title}</span><span className="service-chevron"><ArrowDownRight size={19} strokeWidth={1.3} /></span>
-                </button>
-                <AnimatePresence initial={false}>
-                  {isActive && <motion.div id={"service-panel-" + service.id} className="service-panel" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}>
-                    <p>{service.description}</p>
-                    <div className="service-meta"><span>{service.note}</span><span className="service-availability">PERSONALIZED FOR YOU</span></div>
-                  </motion.div>}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-          <p className="services-footnote">Looking for something different? Call us and we will be happy to help.</p>
-        </div>
-        <div className="service-image-stage" data-reveal="image">
-          <AnimatePresence mode="wait">
-            <motion.div className="service-image" key={selected.id} initial={{ opacity: 0, scale: 1.055 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.975 }} transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}>
-              <img src={selected.image} alt={selected.alt} loading="lazy" /><div className="service-image-overlay" /><span className="service-image-label">{selected.note}</span>
-            </motion.div>
-          </AnimatePresence>
-          <div className="service-image-bottom"><span>CRAFTED WITH INTENTION</span><span>0{active + 1} / 04</span></div>
-        </div>
-      </div>
-      <div className="section-rule" />
+      <p className="services-note">For exact service options and current pricing, please see the online booking menu.</p>
     </section>
   );
 }
@@ -85,93 +128,151 @@ export function Services() {
 export function Testimonials() {
   const [index, setIndex] = useState(0);
   const review = TESTIMONIALS[index];
-  const next = () => setIndex((current) => (current + 1) % TESTIMONIALS.length);
-  const previous = () => setIndex((current) => (current - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
 
-  useEffect(() => {
-    const timer = window.setInterval(() => setIndex((current) => (current + 1) % TESTIMONIALS.length), 8500);
-    return () => window.clearInterval(timer);
-  }, []);
+  const previous = () => setIndex((current) => (current - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+  const next = () => setIndex((current) => (current + 1) % TESTIMONIALS.length);
 
   return (
-    <section className="testimonials section-pad" id="testimonials">
-      <div className="testimonial-topline">
-        <div className="eyebrow"><span className="eyebrow-line" />KIND WORDS</div>
-        <div className="testimonial-rating"><span className="rating-stars" aria-label="Five stars">{[1,2,3,4,5].map((star) => <Star key={star} size={13} fill="currentColor" strokeWidth={0} />)}</span><strong>5.0</strong><span>GUEST RATING</span></div>
-      </div>
-      <div className="testimonial-card" data-reveal="fade">
-        <span className="quote-mark" aria-hidden="true">“</span>
-        <AnimatePresence mode="wait">
-          <motion.div className="testimonial-content" key={review.name} initial={{ opacity: 0, y: 22, filter: "blur(8px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={{ opacity: 0, y: -18, filter: "blur(6px)" }} transition={{ duration: 0.55 }}>
+    <section className="reviews-section section-space" id="reviews">
+      <Reveal className="reviews-heading">
+        <span className="eyebrow eyebrow-light"><i /> KIND WORDS</span>
+        <div className="reviews-rating">
+          <span aria-label="Five stars">{[1, 2, 3, 4, 5].map((star) => <Star key={star} size={13} fill="currentColor" strokeWidth={0} />)}</span>
+          <strong>5.0</strong>
+          <small>GUEST RATING</small>
+        </div>
+      </Reveal>
+
+      <div className="review-slider">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={review.name}
+            className="review-card"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.12}
+            onDragEnd={(_, info) => {
+              if (info.offset.x < -55 || info.velocity.x < -450) next();
+              if (info.offset.x > 55 || info.velocity.x > 450) previous();
+            }}
+            initial={{ opacity: 0, x: 22, filter: "blur(5px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, x: -18, filter: "blur(4px)" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          >
+            <span className="review-quote-mark" aria-hidden="true">“</span>
             <blockquote>{review.quote}</blockquote>
-            <div className="testimonial-author"><span className="author-rule" /><span className="author-name">{review.name}</span><span className="author-detail">{review.detail}</span></div>
+            <div className="review-author">
+              <span className="review-author-line" />
+              <strong>{review.name}</strong>
+              <small>{review.detail}</small>
+            </div>
           </motion.div>
         </AnimatePresence>
-        <div className="testimonial-controls"><span className="testimonial-count">0{index + 1} <i>/</i> 0{TESTIMONIALS.length}</span><button type="button" onClick={previous} aria-label="Previous review" data-cursor="interactive"><ArrowLeft size={18} /></button><button type="button" onClick={next} aria-label="Next review" data-cursor="interactive"><ArrowRight size={18} /></button></div>
+
+        <div className="review-controls">
+          <span>0{index + 1} <i>/</i> 0{TESTIMONIALS.length}</span>
+          <div>
+            <button type="button" onClick={previous} aria-label="Previous review"><ArrowLeft size={18} /></button>
+            <button type="button" onClick={next} aria-label="Next review"><ArrowRight size={18} /></button>
+          </div>
+        </div>
       </div>
-      <p className="testimonial-footnote">A heartfelt thank you to everyone who has made ZhuZhu part of their routine.</p>
+      <p className="reviews-footnote">A heartfelt thank you to everyone who makes ZhuZhu part of their routine.</p>
     </section>
   );
 }
 
 function getSalonStatus(now = new Date()) {
-  const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(now);
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Los_Angeles",
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(now);
+
   const weekday = parts.find((part) => part.type === "weekday")?.value;
   const hour = Number(parts.find((part) => part.type === "hour")?.value || 0);
   const minute = Number(parts.find((part) => part.type === "minute")?.value || 0);
-  const dayIndex = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(weekday);
-  const schedule = HOURS[dayIndex === 0 ? 6 : dayIndex - 1];
-  const currentMinutes = hour * 60 + minute;
-  if (!schedule || schedule.open === null) return { open: false, label: "Closed today" };
+  const schedule = HOURS.find((item) => item.day.slice(0, 3) === weekday);
+
+  if (!schedule || schedule.open === null) {
+    return { isOpen: false, label: "Closed today" };
+  }
+
   const [openHour, openMinute] = schedule.open.split(":").map(Number);
   const [closeHour, closeMinute] = schedule.close.split(":").map(Number);
-  const opening = openHour * 60 + openMinute;
-  const closing = closeHour * 60 + closeMinute;
-  const formatTime = (value) => {
-    const h = Math.floor(value / 60);
+  const currentTime = hour * 60 + minute;
+  const openingTime = openHour * 60 + openMinute;
+  const closingTime = closeHour * 60 + closeMinute;
+
+  const formatTime = (minutes) => {
+    const h = Math.floor(minutes / 60);
     const suffix = h >= 12 ? "PM" : "AM";
-    const display = h % 12 || 12;
-    const mins = value % 60;
-    return mins ? display + ":" + String(mins).padStart(2, "0") + " " + suffix : display + " " + suffix;
+    const displayHour = h % 12 || 12;
+    const mins = minutes % 60;
+    return mins ? displayHour + ":" + String(mins).padStart(2, "0") + " " + suffix : displayHour + " " + suffix;
   };
-  if (currentMinutes >= opening && currentMinutes < closing) return { open: true, label: "Open until " + formatTime(closing) };
-  if (currentMinutes < opening) return { open: false, label: "Opens at " + formatTime(opening) };
-  return { open: false, label: "Closed for today" };
+
+  if (currentTime >= openingTime && currentTime < closingTime) {
+    return { isOpen: true, label: "Open now · Until " + formatTime(closingTime) };
+  }
+  if (currentTime < openingTime) {
+    return { isOpen: false, label: "Opens today · " + formatTime(openingTime) };
+  }
+  return { isOpen: false, label: "Closed for today" };
 }
 
-export function Booking() {
+function BusinessStatus() {
   const [status, setStatus] = useState(() => getSalonStatus());
+
   useEffect(() => {
-    const refresh = () => setStatus(getSalonStatus());
-    const id = window.setInterval(refresh, 60000);
-    return () => window.clearInterval(id);
+    const updateStatus = () => setStatus(getSalonStatus());
+    const interval = window.setInterval(updateStatus, 60000);
+    return () => window.clearInterval(interval);
   }, []);
 
   return (
-    <section className="booking section-pad" id="visit">
-      <div className="booking-heading">
-        <SectionIntro label="YOUR NEXT MOMENT" title={<>Make time for<br /><em>something lovely.</em></>}>
-          An appointment should feel like something to look forward to. We would love to welcome you to ZhuZhu.
-        </SectionIntro>
-        <div className="visit-details" data-reveal="fade">
-          <div className="visit-detail"><span className="visit-icon"><MapPin size={17} strokeWidth={1.4} /></span><div><span className="detail-label">FIND US</span><a href={MAPS_URL} target="_blank" rel="noreferrer">13104 1/2 Sherman Way<br />North Hollywood, CA 91605</a></div></div>
-          <div className="visit-detail"><span className="visit-icon"><Phone size={17} strokeWidth={1.4} /></span><div><span className="detail-label">SAY HELLO</span><a href={PHONE_LINK}>{SALON_PHONE}</a></div></div>
-          <div className="visit-detail"><span className="visit-icon"><Clock3 size={17} strokeWidth={1.4} /></span><div><span className="detail-label">TODAY AT ZHUZHU</span><span className={"open-status " + (status.open ? "is-open" : "")}><i />{status.label}</span><span className="hours-caption">Pacific Time · Holiday hours may vary</span></div></div>
-          <BookingButton label="Reserve your visit" />
+    <span className={"business-status" + (status.isOpen ? " is-open" : "")}>
+      <i aria-hidden="true" />
+      {status.label}
+    </span>
+  );
+}
+
+export function BookingSection() {
+  return (
+    <section className="booking-section section-space marble-surface" id="visit">
+      <Reveal className="booking-heading">
+        <span className="eyebrow"><i /> YOUR MOMENT AWAITS</span>
+        <h2>Make time for<br /><em>something lovely.</em></h2>
+        <p>Step into a calmer pace. We would love to welcome you to ZhuZhu.</p>
+      </Reveal>
+
+      <div className="booking-details">
+        <div className="booking-detail">
+          <span className="booking-detail-icon"><MapPin size={19} strokeWidth={1.5} /></span>
+          <div><small>FIND US</small><a href={MAPS_URL} target="_blank" rel="noreferrer">{SALON_ADDRESS}</a></div>
+        </div>
+        <div className="booking-detail">
+          <span className="booking-detail-icon"><Phone size={19} strokeWidth={1.5} /></span>
+          <div><small>SAY HELLO</small><a href={PHONE_LINK}>{SALON_PHONE}</a></div>
+        </div>
+        <div className="booking-detail">
+          <span className="booking-detail-icon"><Clock3 size={19} strokeWidth={1.5} /></span>
+          <div><small>TODAY AT ZHUZHU · PACIFIC TIME</small><BusinessStatus /></div>
         </div>
       </div>
-      <div className="booking-bottom">
-        <div className="booking-note" data-reveal="fade">
-          <span className="eyebrow"><span className="eyebrow-line" />A LITTLE NOTE</span>
-          <h3>Come as you are.<br /><em>Leave feeling cared for.</em></h3>
-          <p>Have a question before your visit? Call our team and we will be happy to help you choose the right service.</p>
-          <a className="inline-link" href={PHONE_LINK}>Speak with our team <ArrowUpRight size={15} /></a>
-        </div>
-        <div className="map-panel" data-reveal="image">
-          <iframe title="Map showing ZhuZhu Beauty and Nail Salon in North Hollywood" src={MAP_EMBED_URL} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
-          <div className="map-caption"><div><span className="detail-label">A LITTLE SANCTUARY IN NOHO</span><strong>Easy to find.<br /><em>Lovely to return to.</em></strong></div><a href={MAPS_URL} target="_blank" rel="noreferrer" aria-label="Get directions to ZhuZhu"><ArrowUpRight size={20} /></a></div>
-        </div>
-      </div>
+
+      <Reveal className="booking-cta-wrap">
+        <BookingWidget label="Reserve your experience" className="booking-section-button" />
+        <p>Online booking opens in a secure new tab.</p>
+      </Reveal>
+
+      <a className="directions-link" href={MAPS_URL} target="_blank" rel="noreferrer">
+        Get directions <ArrowUpRight size={16} />
+      </a>
     </section>
   );
 }
