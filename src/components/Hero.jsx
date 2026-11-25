@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Instagram, Star } from "lucide-react";
 import BookingWidget from "./BookingWidget.jsx";
+import heroBackground from "./Роскошный маникюр на мягком полотенце.png";
 import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT, INSTAGRAM_URL } from "../data.js";
 
 export default function Hero() {
@@ -21,9 +22,7 @@ export default function Hero() {
         <motion.img
           className="hero-image"
           style={{ scale: imageScale }}
-          src="https://images.unsplash.com/photo-1679580521391-88790c53cdd8?auto=format&fit=crop&w=1280&q=84"
-          srcSet="https://images.unsplash.com/photo-1679580521391-88790c53cdd8?auto=format&fit=crop&w=768&q=82 768w, https://images.unsplash.com/photo-1679580521391-88790c53cdd8?auto=format&fit=crop&w=1280&q=84 1280w, https://images.unsplash.com/photo-1679580521391-88790c53cdd8?auto=format&fit=crop&w=1800&q=84 1800w"
-          sizes="100vw"
+          src={heroBackground}
           decoding="async"
           alt=""
           fetchPriority="high"
