@@ -18,13 +18,28 @@ function Root() {
 
     let frameId = 0;
     const raf = (time) => {
+      if (document.visibilityState !== "visible") {
+        frameId = 0;
+        return;
+      }
       lenis.raf(time);
       frameId = window.requestAnimationFrame(raf);
     };
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        if (frameId) window.cancelAnimationFrame(frameId);
+        frameId = 0;
+      } else if (!frameId) {
+        frameId = window.requestAnimationFrame(raf);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     frameId = window.requestAnimationFrame(raf);
     return () => {
-      window.cancelAnimationFrame(frameId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (frameId) window.cancelAnimationFrame(frameId);
       lenis.destroy();
     };
   }, []);

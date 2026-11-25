@@ -20,7 +20,10 @@ export default function Hero() {
         <motion.img
           className="hero-image"
           style={{ scale: imageScale }}
-          src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1800&q=88"
+          src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1280&q=76"
+          srcSet="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=768&q=76 768w, https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1280&q=76 1280w, https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1800&q=76 1800w"
+          sizes="100vw"
+          decoding="async"
           alt=""
           fetchPriority="high"
           aria-hidden="true"

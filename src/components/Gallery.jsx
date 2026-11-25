@@ -5,6 +5,7 @@ import { GALLERY } from "../data.js";
 
 export default function Gallery() {
   const trackRef = useRef(null);
+  const scrollFrameRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
@@ -21,25 +22,33 @@ export default function Gallery() {
   };
 
   const handleScroll = () => {
-    const track = trackRef.current;
-    if (!track) return;
+    if (scrollFrameRef.current) return;
 
-    const cards = Array.from(track.children);
-    const center = track.getBoundingClientRect().left + track.clientWidth / 2;
-    let closestIndex = 0;
-    let closestDistance = Number.POSITIVE_INFINITY;
+    scrollFrameRef.current = window.requestAnimationFrame(() => {
+      scrollFrameRef.current = 0;
+      const track = trackRef.current;
+      if (!track) return;
 
-    cards.forEach((card, index) => {
-      const rect = card.getBoundingClientRect();
-      const distance = Math.abs(center - (rect.left + rect.width / 2));
-      if (distance < closestDistance) {
-        closestIndex = index;
-        closestDistance = distance;
+      const center = track.getBoundingClientRect().left + track.clientWidth / 2;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      for (let index = 0; index < track.children.length; index += 1) {
+        const rect = track.children[index].getBoundingClientRect();
+        const distance = Math.abs(center - (rect.left + rect.width / 2));
+        if (distance < closestDistance) {
+          closestIndex = index;
+          closestDistance = distance;
+        }
       }
-    });
 
-    setActiveIndex(closestIndex);
+      setActiveIndex((current) => current === closestIndex ? current : closestIndex);
+    });
   };
+
+  useEffect(() => () => {
+    if (scrollFrameRef.current) window.cancelAnimationFrame(scrollFrameRef.current);
+  }, []);
 
   useEffect(() => {
     if (lightboxIndex === null) return undefined;
@@ -104,7 +113,15 @@ export default function Gallery() {
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: index * 0.06 }}
           >
             <div className="gallery-card-image">
-              <img src={item.src} alt={item.alt} loading="lazy" />
+              <img
+                src={item.src}
+                srcSet={item.srcSet}
+                sizes="(min-width: 1100px) 410px, (min-width: 700px) 36vw, 88vw"
+                alt={item.alt}
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+              />
               <span className="gallery-film-grain" aria-hidden="true" />
               <span className="gallery-card-number">0{index + 1}</span>
               <motion.button
@@ -167,7 +184,12 @@ export default function Gallery() {
               }}
               onClick={(event) => event.stopPropagation()}
             >
-              <img src={activeImage.src.replace(/w=\d+/, "w=1800")} alt={activeImage.alt} />
+              <img
+                src={activeImage.src.replace(/w=\d+/, "w=1600").replace(/q=\d+/, "q=80")}
+                alt={activeImage.alt}
+                decoding="async"
+                fetchPriority="high"
+              />
               <div className="lookbook-lightbox-caption">
                 <div><small>{activeImage.category}</small><strong>{activeImage.title}</strong></div>
                 <span>0{lightboxIndex + 1} / 0{GALLERY.length}</span>

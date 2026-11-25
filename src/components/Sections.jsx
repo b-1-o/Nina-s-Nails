@@ -40,9 +40,13 @@ export function Philosophy() {
 
       <Reveal className="about-visual" delay={0.08}>
         <img
-          src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1100&q=85"
+          src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=800&q=76"
+          srcSet="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=480&q=76 480w, https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=800&q=76 800w, https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1200&q=76 1200w"
+          sizes="(min-width: 700px) 50vw, calc(100vw - 48px)"
           alt="A calm salon-inspired interior with natural textures and soft light"
           loading="lazy"
+          decoding="async"
+          fetchPriority="low"
         />
         <div className="about-visual-grain" aria-hidden="true" />
         <div className="about-stamp">
@@ -111,7 +115,15 @@ export function Services() {
                         <span>{service.priceNote}</span>
                         <BookingWidget label="View booking options" showIcon={false} className="service-booking-link" />
                       </div>
-                      <img src={service.image} alt={service.alt} loading="lazy" />
+                      <img
+                        src={service.image}
+                        srcSet={service.imageSrcSet}
+                        sizes="(min-width: 700px) 560px, calc(100vw - 64px)"
+                        alt={service.alt}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
+                      />
                     </div>
                   </motion.div>
                 )}
@@ -155,9 +167,9 @@ export function Testimonials() {
               if (info.offset.x < -55 || info.velocity.x < -450) next();
               if (info.offset.x > 55 || info.velocity.x > 450) previous();
             }}
-            initial={{ opacity: 0, x: 22, filter: "blur(5px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, x: -18, filter: "blur(4px)" }}
+            initial={{ opacity: 0, x: 22 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -18 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
           >
             <span className="review-quote-mark" aria-hidden="true">“</span>

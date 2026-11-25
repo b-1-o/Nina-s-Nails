@@ -1,3 +1,15 @@
+const responsivePhoto = (photoId) => {
+  const url = (width) => `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&q=76`;
+  return {
+    src: url(800),
+    srcSet: `${url(480)} 480w, ${url(800)} 800w, ${url(1200)} 1200w`,
+  };
+};
+
+const classicPhoto = responsivePhoto("photo-1604654894610-df63bc536371");
+const artPhoto = responsivePhoto("photo-1632345031435-8727f6897d53");
+const detailPhoto = responsivePhoto("photo-1610992015732-2449b76344bc");
+
 // ZhuZhu's currently published online booking destination is Zoca.
 // Replace BOOKING_URL with the salon's confirmed Booksy profile URL when it is available.
 // Booksy's embedded widget script is business-specific and must come from the salon's own Booksy account.
@@ -28,7 +40,8 @@ export const SERVICES = [
     title: "Signature French Manicure",
     description: "A timeless silhouette, refined to your shape. From a sheer, natural finish to a crisp French tip, every detail is considered.",
     priceNote: "View current pricing when booking",
-    image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=88",
+    image: classicPhoto.src,
+    imageSrcSet: classicPhoto.srcSet,
     alt: "A refined, natural manicure with a glossy finish",
   },
   {
@@ -37,7 +50,8 @@ export const SERVICES = [
     title: "Custom Nail Art",
     description: "Your inspiration, translated into a one-of-a-kind set. Explore delicate detailing, tonal textures, fine lines and custom color stories.",
     priceNote: "Priced according to your design",
-    image: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1200&q=88",
+    image: artPhoto.src,
+    imageSrcSet: artPhoto.srcSet,
     alt: "Close-up of detailed nail art",
   },
   {
@@ -46,7 +60,8 @@ export const SERVICES = [
     title: "Premium Pedicure",
     description: "A restorative pause for beautifully cared-for feet. Settle in, slow down and enjoy thoughtful attention from first touch to final polish.",
     priceNote: "View current pricing when booking",
-    image: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=1200&q=88",
+    image: detailPhoto.src,
+    imageSrcSet: detailPhoto.srcSet,
     alt: "A clean, polished beauty treatment detail",
   },
   {
@@ -62,19 +77,22 @@ export const SERVICES = [
 
 export const GALLERY = [
   {
-    src: "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=88",
+    src: classicPhoto.src,
+    srcSet: classicPhoto.srcSet,
     alt: "Soft neutral manicure with a glassy finish",
     title: "The Modern Classic",
     category: "THE SIGNATURE",
   },
   {
-    src: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1200&q=88",
+    src: artPhoto.src,
+    srcSet: artPhoto.srcSet,
     alt: "Artful nail design with delicate detailing",
     title: "Art in the Details",
     category: "NAIL ART",
   },
   {
-    src: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=1200&q=88",
+    src: detailPhoto.src,
+    srcSet: detailPhoto.srcSet,
     alt: "A close-up of a polished nail treatment",
     title: "A Study in Shape",
     category: "THE FINISH",
