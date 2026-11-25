@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Map, MapPin, X } from "lucide-react";
-import { APPLE_MAPS_URL, GOOGLE_MAPS_URL } from "../data.js";
+import { APPLE_MAPS_URL, GOOGLE_MAPS_URL, GEO_MAPS_URL } from "../data.js";
 
 export default function DirectionsChooser({
   label = "Get directions",
@@ -10,6 +10,7 @@ export default function DirectionsChooser({
   showArrow = true,
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const supportsAndroidMapIntent = typeof navigator !== "undefined" && /android/i.test(navigator.userAgent);
   const triggerRef = useRef(null);
   const dialogRef = useRef(null);
 
@@ -107,7 +108,7 @@ export default function DirectionsChooser({
                 the map service will open in your browser.
               </p>
 
-              <a className="directions-choice" href={APPLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
+              <a className="directions-choice" href={APPLE_MAPS_URL}>
                 <span className="directions-choice-icon directions-choice-icon--apple"><MapPin size={21} /></span>
                 <span className="directions-choice-copy">
                   <strong>Apple Maps</strong>
@@ -116,7 +117,7 @@ export default function DirectionsChooser({
                 <ArrowUpRight size={18} />
               </a>
 
-              <a className="directions-choice" href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
+              <a className="directions-choice" href={GOOGLE_MAPS_URL}>
                 <span className="directions-choice-icon directions-choice-icon--google"><Map size={21} /></span>
                 <span className="directions-choice-copy">
                   <strong>Google Maps</strong>
@@ -124,6 +125,17 @@ export default function DirectionsChooser({
                 </span>
                 <ArrowUpRight size={18} />
               </a>
+
+              {supportsAndroidMapIntent && (
+                <a className="directions-choice" href={GEO_MAPS_URL}>
+                  <span className="directions-choice-icon directions-choice-icon--other"><MapPin size={21} /></span>
+                  <span className="directions-choice-copy">
+                    <strong>Other map apps</strong>
+                    <small>Let your device choose an installed app</small>
+                  </span>
+                  <ArrowUpRight size={18} />
+                </a>
+              )}
             </motion.section>
           </motion.div>
         )}

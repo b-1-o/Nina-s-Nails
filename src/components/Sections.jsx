@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, ArrowLeft, ArrowRight, Clock3, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Clock3, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
 import { HOURS, PHONE_LINK, SALON_ADDRESS, SALON_PHONE, SERVICES, TESTIMONIALS } from "../data.js";
 import BookingWidget from "./BookingWidget.jsx";
 import DirectionsChooser from "./DirectionsChooser.jsx";

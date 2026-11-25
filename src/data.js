@@ -24,6 +24,7 @@ export const PHONE_LINK = "tel:+18188633111";
 const MAP_DESTINATION = encodeURIComponent(`${SALON_NAME}, ${SALON_ADDRESS}`);
 export const APPLE_MAPS_URL = `https://maps.apple.com/?daddr=${encodeURIComponent(SALON_ADDRESS)}&q=${encodeURIComponent(SALON_NAME)}`;
 export const GOOGLE_MAPS_URL = `https://www.google.com/maps/dir/?api=1&destination=${MAP_DESTINATION}`;
+export const GEO_MAPS_URL = `geo:0,0?q=${encodeURIComponent(SALON_ADDRESS)}`;
 // Kept as a backwards-compatible export for any existing integrations.
 export const MAPS_URL = GOOGLE_MAPS_URL;
 

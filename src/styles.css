@@ -1046,3 +1046,5 @@
 @media (min-width: 700px) {
   .directions-link { width: 100%; min-height: 66px; }
 }
+
+.directions-choice-icon--other { color: #6B735F; background: #F2F1EA; }

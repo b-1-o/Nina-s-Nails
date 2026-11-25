@@ -1,4 +1,4 @@
-import { ArrowUpRight, Instagram, Facebook } from "lucide-react";
+import { Instagram, Facebook } from "lucide-react";
 import { PHONE_LINK, SALON_ADDRESS, SALON_NAME, SALON_PHONE, SOCIAL_LINKS } from "../data.js";
 import BookingWidget from "./BookingWidget.jsx";
 import DirectionsChooser from "./DirectionsChooser.jsx";
