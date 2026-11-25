@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowUpRight, ArrowLeft, ArrowRight, Clock3, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
-import { HOURS, MAPS_URL, PHONE_LINK, SALON_ADDRESS, SALON_PHONE, SERVICES, TESTIMONIALS } from "../data.js";
+import { HOURS, PHONE_LINK, SALON_ADDRESS, SALON_PHONE, SERVICES, TESTIMONIALS } from "../data.js";
 import BookingWidget from "./BookingWidget.jsx";
+import DirectionsChooser from "./DirectionsChooser.jsx";
 
 function Reveal({ children, className = "", delay = 0 }) {
   return (
@@ -265,7 +266,7 @@ export function BookingSection() {
       <div className="booking-details">
         <div className="booking-detail">
           <span className="booking-detail-icon"><MapPin size={19} strokeWidth={1.5} /></span>
-          <div><small>FIND US</small><a href={MAPS_URL} target="_blank" rel="noreferrer">{SALON_ADDRESS}</a></div>
+          <div><small>FIND US</small><DirectionsChooser label={SALON_ADDRESS} className="booking-detail-address" showIcon={false} showArrow={true} /></div>
         </div>
         <div className="booking-detail">
           <span className="booking-detail-icon"><Phone size={19} strokeWidth={1.5} /></span>
@@ -278,13 +279,9 @@ export function BookingSection() {
       </div>
 
       <Reveal className="booking-cta-wrap">
-        <BookingWidget label="Reserve your experience" className="booking-section-button" />
-        <p>Online booking opens in a secure new tab.</p>
+        <DirectionsChooser label="Get directions" className="directions-link" />
+        <p>Choose Apple Maps or Google Maps to navigate to the salon.</p>
       </Reveal>
-
-      <a className="directions-link" href={MAPS_URL} target="_blank" rel="noreferrer">
-        Get directions <ArrowUpRight size={16} />
-      </a>
     </section>
   );
 }

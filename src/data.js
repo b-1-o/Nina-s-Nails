@@ -7,6 +7,7 @@ const responsivePhoto = (photoId) => {
 };
 
 const classicPhoto = responsivePhoto("photo-1604654894610-df63bc536371");
+const frenchServicePhoto = responsivePhoto("photo-1679580521391-88790c53cdd8");
 const artPhoto = responsivePhoto("photo-1632345031435-8727f6897d53");
 const detailPhoto = responsivePhoto("photo-1610992015732-2449b76344bc");
 
@@ -20,7 +21,11 @@ export const SALON_NAME = "ZhuZhu Beauty & Nail Salon";
 export const SALON_ADDRESS = "13104 1/2 Sherman Way, North Hollywood, CA 91605";
 export const SALON_PHONE = "(818) 863-3111";
 export const PHONE_LINK = "tel:+18188633111";
-export const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=13104%201%2F2%20Sherman%20Way%2C%20North%20Hollywood%2C%20CA%2091605";
+const MAP_DESTINATION = encodeURIComponent(`${SALON_NAME}, ${SALON_ADDRESS}`);
+export const APPLE_MAPS_URL = `https://maps.apple.com/?daddr=${encodeURIComponent(SALON_ADDRESS)}&q=${encodeURIComponent(SALON_NAME)}`;
+export const GOOGLE_MAPS_URL = `https://www.google.com/maps/dir/?api=1&destination=${MAP_DESTINATION}`;
+// Kept as a backwards-compatible export for any existing integrations.
+export const MAPS_URL = GOOGLE_MAPS_URL;
 
 // Hours currently displayed by ZhuZhu's public Zoca listing, in America/Los_Angeles time.
 export const HOURS = [
@@ -40,9 +45,9 @@ export const SERVICES = [
     title: "Signature French Manicure",
     description: "A timeless silhouette, refined to your shape. From a sheer, natural finish to a crisp French tip, every detail is considered.",
     priceNote: "View current pricing when booking",
-    image: classicPhoto.src,
-    imageSrcSet: classicPhoto.srcSet,
-    alt: "A refined, natural manicure with a glossy finish",
+    image: frenchServicePhoto.src,
+    imageSrcSet: frenchServicePhoto.srcSet,
+    alt: "A soft white manicure with a smooth glossy finish",
   },
   {
     id: "art",

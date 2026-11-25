@@ -1,6 +1,7 @@
 import { ArrowUpRight, Instagram, Facebook } from "lucide-react";
-import { MAPS_URL, PHONE_LINK, SALON_ADDRESS, SALON_NAME, SALON_PHONE, SOCIAL_LINKS } from "../data.js";
+import { PHONE_LINK, SALON_ADDRESS, SALON_NAME, SALON_PHONE, SOCIAL_LINKS } from "../data.js";
 import BookingWidget from "./BookingWidget.jsx";
+import DirectionsChooser from "./DirectionsChooser.jsx";
 
 export default function Footer() {
   const socials = [
@@ -24,7 +25,7 @@ export default function Footer() {
         </div>
         <div className="footer-contact">
           <span>FIND US</span>
-          <a href={MAPS_URL} target="_blank" rel="noreferrer">{SALON_ADDRESS} <ArrowUpRight size={14} /></a>
+          <DirectionsChooser label={SALON_ADDRESS} className="footer-map-trigger" showIcon={false} showArrow={true} />
           <a href={PHONE_LINK}>{SALON_PHONE}</a>
           {socials.length > 0 && (
             <div className="footer-socials">
