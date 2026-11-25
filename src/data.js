@@ -28,7 +28,7 @@ export const SERVICES = [
     title: "Signature French Manicure",
     description: "A timeless silhouette, refined to your shape. From a sheer, natural finish to a crisp French tip, every detail is considered.",
     priceNote: "View current pricing when booking",
-    image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=88",
     alt: "A refined, natural manicure with a glossy finish",
   },
   {
@@ -37,7 +37,7 @@ export const SERVICES = [
     title: "Custom Nail Art",
     description: "Your inspiration, translated into a one-of-a-kind set. Explore delicate detailing, tonal textures, fine lines and custom color stories.",
     priceNote: "Priced according to your design",
-    image: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1200&q=88",
     alt: "Close-up of detailed nail art",
   },
   {
@@ -46,7 +46,7 @@ export const SERVICES = [
     title: "Premium Pedicure",
     description: "A restorative pause for beautifully cared-for feet. Settle in, slow down and enjoy thoughtful attention from first touch to final polish.",
     priceNote: "View current pricing when booking",
-    image: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=1200&q=88",
     alt: "A clean, polished beauty treatment detail",
   },
   {
@@ -55,26 +55,26 @@ export const SERVICES = [
     title: "Full Set Extensions",
     description: "Beautiful length with balance, structure and a finish that feels like you. Choose your preferred shape, length and final expression.",
     priceNote: "View current pricing when booking",
-    image: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=1200&q=88",
     alt: "Sculpted nails with a refined glossy finish",
   },
 ];
 
 export const GALLERY = [
   {
-    src: "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=85",
+    src: "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=88",
     alt: "Soft neutral manicure with a glassy finish",
     title: "The Modern Classic",
     category: "THE SIGNATURE",
   },
   {
-    src: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=900&q=85",
+    src: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1200&q=88",
     alt: "Artful nail design with delicate detailing",
     title: "Art in the Details",
     category: "NAIL ART",
   },
   {
-    src: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=900&q=85",
+    src: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=1200&q=88",
     alt: "A close-up of a polished nail treatment",
     title: "A Study in Shape",
     category: "THE FINISH",

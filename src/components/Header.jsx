@@ -53,16 +53,18 @@ export default function Header() {
         </nav>
 
         <div className="mobile-header-actions">
-          <button
+          <motion.button
             type="button"
             className="menu-button"
+            whileTap={{ scale: 0.9, rotate: menuOpen ? -8 : 8 }}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             onClick={() => setMenuOpen((open) => !open)}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          </motion.button>
         </div>
       </div>
 

@@ -173,8 +173,8 @@ export function Testimonials() {
         <div className="review-controls">
           <span>0{index + 1} <i>/</i> 0{TESTIMONIALS.length}</span>
           <div>
-            <button type="button" onClick={previous} aria-label="Previous review"><ArrowLeft size={18} /></button>
-            <button type="button" onClick={next} aria-label="Next review"><ArrowRight size={18} /></button>
+            <motion.button type="button" whileTap={{ scale: 0.88 }} onClick={previous} aria-label="Previous review"><ArrowLeft size={18} /></motion.button>
+            <motion.button type="button" whileTap={{ scale: 0.88 }} onClick={next} aria-label="Next review"><ArrowRight size={18} /></motion.button>
           </div>
         </div>
       </div>
