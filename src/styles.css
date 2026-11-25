@@ -210,15 +210,15 @@
   height: 100%;
   object-fit: cover;
   object-position: 54% center;
-  filter: saturate(.76);
+  filter: saturate(1.16) contrast(1.035);
 }
 .hero-overlay {
   position: absolute;
   z-index: -2;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(5,24,16,.32) 0%, rgba(5,24,16,.17) 30%, rgba(5,24,16,.72) 100%),
-    linear-gradient(90deg, rgba(5,24,16,.48), rgba(5,24,16,.05) 85%);
+    linear-gradient(180deg, rgba(46,32,38,.16) 0%, rgba(46,32,38,.22) 30%, rgba(46,32,38,.62) 100%),
+    linear-gradient(90deg, rgba(46,32,38,.38), rgba(46,32,38,.035) 85%);
 }
 .hero-grain, .gallery-film-grain, .about-visual-grain {
   position: absolute;
