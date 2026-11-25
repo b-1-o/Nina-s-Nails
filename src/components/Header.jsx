@@ -4,9 +4,9 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import BookingWidget from "./BookingWidget.jsx";
 
 const NAV_ITEMS = [
-  { label: "Our story", href: "#about" },
+  { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
-  { label: "Gallery", href: "#gallery" },
+  { label: "Nail inspiration", href: "#gallery" },
   { label: "Reviews", href: "#reviews" },
   { label: "Visit", href: "#visit" },
 ];
@@ -19,14 +19,12 @@ export default function Header() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const delta = latest - previousY.current;
-
     if (latest < 48 || delta < -5 || menuOpen) {
       setVisible(true);
     } else if (delta > 7 && latest > 120) {
       setVisible(false);
       setMenuOpen(false);
     }
-
     previousY.current = latest;
   });
 
@@ -40,18 +38,14 @@ export default function Header() {
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
     >
       <div className="site-header-inner">
-        <a className="brand-mark" href="#top" aria-label="ZhuZhu home" onClick={closeMenu}>
-          <span className="brand-mark-name">ZhuZhu</span>
-          <span className="brand-mark-sub">BEAUTY & NAIL SALON</span>
+        <a className="brand-mark" href="#top" aria-label="Nina's Nails home" onClick={closeMenu}>
+          <span className="brand-mark-name">Nina's Nails</span>
+          <span className="brand-mark-sub">NAIL CARE · NORTH HOLLYWOOD</span>
         </a>
-
         <nav className="desktop-nav" aria-label="Main navigation">
-          {NAV_ITEMS.map((item) => (
-            <a href={item.href} key={item.href}>{item.label}</a>
-          ))}
-          <BookingWidget label="Book now" showIcon={false} className="header-booking" />
+          {NAV_ITEMS.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
+          <BookingWidget label="Call now" showIcon={false} className="header-booking" />
         </nav>
-
         <div className="mobile-header-actions">
           <motion.button
             type="button"
@@ -67,7 +61,6 @@ export default function Header() {
           </motion.button>
         </div>
       </div>
-
       <AnimatePresence>
         {menuOpen && (
           <motion.nav
@@ -86,7 +79,7 @@ export default function Header() {
                 <ArrowUpRight size={16} aria-hidden="true" />
               </a>
             ))}
-            <BookingWidget label="Reserve your experience" className="mobile-menu-booking" />
+            <BookingWidget label="Call the salon" className="mobile-menu-booking" />
           </motion.nav>
         )}
       </AnimatePresence>

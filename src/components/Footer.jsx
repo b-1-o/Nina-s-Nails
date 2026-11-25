@@ -1,52 +1,41 @@
-import { Instagram, Facebook } from "lucide-react";
-import { PHONE_LINK, SALON_ADDRESS, SALON_NAME, SALON_PHONE, SOCIAL_LINKS } from "../data.js";
+import { Instagram } from "lucide-react";
+import { INSTAGRAM_URL, PHONE_LINK, SALON_ADDRESS, SALON_NAME, SALON_PHONE } from "../data.js";
 import BookingWidget from "./BookingWidget.jsx";
 import DirectionsChooser from "./DirectionsChooser.jsx";
 
 export default function Footer() {
-  const socials = [
-    SOCIAL_LINKS.instagram ? { label: "Instagram", href: SOCIAL_LINKS.instagram, icon: Instagram } : null,
-    SOCIAL_LINKS.facebook ? { label: "Facebook", href: SOCIAL_LINKS.facebook, icon: Facebook } : null,
-  ].filter(Boolean);
-
   return (
     <footer className="site-footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <a href="#top" className="footer-wordmark">ZhuZhu<span>.</span></a>
-          <p>Thoughtful beauty.<br />A warm welcome, always.</p>
+          <a href="#top" className="footer-wordmark">Nina's Nails<span>.</span></a>
+          <p>Manicure. Pedicure.<br />A fresh look, every visit.</p>
         </div>
         <div className="footer-links">
           <span>EXPLORE</span>
-          <a href="#about">Our story</a>
+          <a href="#about">About the salon</a>
           <a href="#services">Services</a>
-          <a href="#gallery">Lookbook</a>
-          <a href="#reviews">Guest notes</a>
+          <a href="#gallery">Nail inspiration</a>
+          <a href="#reviews">Guest feedback</a>
+          <a href="#visit">Opening hours</a>
         </div>
         <div className="footer-contact">
           <span>FIND US</span>
           <DirectionsChooser label={SALON_ADDRESS} className="footer-map-trigger" showIcon={false} showArrow={true} />
           <a href={PHONE_LINK}>{SALON_PHONE}</a>
-          {socials.length > 0 && (
-            <div className="footer-socials">
-              {socials.map(({ label, href, icon: Icon }) => (
-                <a href={href} key={label} target="_blank" rel="noreferrer" aria-label={label}>
-                  <Icon size={19} strokeWidth={1.6} />
-                </a>
-              ))}
-            </div>
-          )}
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Nina's Nails on Instagram" className="footer-instagram">
+            <Instagram size={17} aria-hidden="true" /> @nailsbynina86
+          </a>
         </div>
         <div className="footer-booking">
-          <span>A LITTLE TIME FOR YOU</span>
-          <p>Whenever you are ready, we are here.</p>
-          <BookingWidget label="Book your visit" />
+          <span>QUESTIONS OR APPOINTMENTS?</span>
+          <p>Call the salon to check availability and current pricing.</p>
+          <BookingWidget label="Call Nina's Nails" />
         </div>
       </div>
-
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} {SALON_NAME.toUpperCase()}</span>
-        <span>MADE WITH CARE IN NORTH HOLLYWOOD</span>
+        <span>12912 SHERMAN WAY · NORTH HOLLYWOOD, CA</span>
         <a href="#top">BACK TO TOP ↑</a>
       </div>
     </footer>

@@ -84,9 +84,9 @@ export default function Gallery() {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
       >
-        <span className="eyebrow"><i /> THE ZHUZHU LOOKBOOK</span>
-        <h2>Artistry in every<br /><em>little detail.</em></h2>
-        <p>Swipe to explore the details, shapes and finishes. Tap any photograph to see it up close.</p>
+        <span className="eyebrow"><i /> NAIL STYLE INSPIRATION</span>
+        <h2>A little inspiration.<br /><em>Your own style.</em></h2>
+        <p>Browse nail looks for inspiration. Tap a photo to view it up close, then call the salon to ask what styles are available.</p>
       </motion.div>
 
       <div className="gallery-controls" aria-label="Lookbook controls">
@@ -101,7 +101,7 @@ export default function Gallery() {
         </div>
       </div>
 
-      <div className="gallery-track" ref={trackRef} onScroll={handleScroll} aria-label="Swipeable nail artistry gallery">
+      <div className="gallery-track" ref={trackRef} onScroll={handleScroll} aria-label="Swipeable nail inspiration gallery">
         {GALLERY.map((item, index) => (
           <motion.article
             className={"gallery-card" + (activeIndex === index ? " is-active" : "")}
@@ -129,7 +129,7 @@ export default function Gallery() {
                 type="button"
                 onClick={() => setLightboxIndex(index)}
                 whileTap={{ scale: 0.97 }}
-                aria-label={"Open full-size photograph: " + item.title}
+                aria-label={"Open inspiration photograph: " + item.title}
               >
                 <span>VIEW DETAIL</span>
                 <Expand size={16} strokeWidth={1.6} />
@@ -143,6 +143,7 @@ export default function Gallery() {
         ))}
       </div>
 
+      <p className="gallery-disclaimer">Images are style inspiration, not a verified portfolio of Nina's Nails work.</p>
       <div className="gallery-dots" aria-label="Gallery position">
         {GALLERY.map((item, index) => (
           <motion.button

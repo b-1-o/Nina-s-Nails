@@ -16,7 +16,6 @@ export default function DirectionsChooser({
 
   useEffect(() => {
     if (!isOpen) return undefined;
-
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -25,16 +24,11 @@ export default function DirectionsChooser({
         setIsOpen(false);
         return;
       }
-
       if (event.key !== "Tab") return;
-      const focusable = dialogRef.current?.querySelectorAll(
-        'a[href], button:not([disabled])'
-      );
+      const focusable = dialogRef.current?.querySelectorAll('a[href], button:not([disabled])');
       if (!focusable?.length) return;
-
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -46,7 +40,6 @@ export default function DirectionsChooser({
 
     window.addEventListener("keydown", handleKeyDown);
     dialogRef.current?.querySelector("a[href]")?.focus();
-
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
@@ -104,24 +97,24 @@ export default function DirectionsChooser({
               <span className="eyebrow"><i /> FIND YOUR WAY</span>
               <h3 id="directions-dialog-title">Choose your map app.</h3>
               <p id="directions-dialog-description">
-                Open ZhuZhu in the map app you prefer. If it is not installed,
-                the map service will open in your browser.
+                Open Nina's Nails in the map app you prefer. If it is not installed,
+                the map service may open in your browser.
               </p>
 
-              <a className="directions-choice" href={APPLE_MAPS_URL}>
+              <a className="directions-choice" href={APPLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
                 <span className="directions-choice-icon directions-choice-icon--apple"><MapPin size={21} /></span>
                 <span className="directions-choice-copy">
                   <strong>Apple Maps</strong>
-                  <small>Open directions in Apple Maps</small>
+                  <small>Directions with Apple Maps</small>
                 </span>
                 <ArrowUpRight size={18} />
               </a>
 
-              <a className="directions-choice" href={GOOGLE_MAPS_URL}>
+              <a className="directions-choice" href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
                 <span className="directions-choice-icon directions-choice-icon--google"><Map size={21} /></span>
                 <span className="directions-choice-copy">
                   <strong>Google Maps</strong>
-                  <small>Open directions in Google Maps</small>
+                  <small>Directions with Google Maps</small>
                 </span>
                 <ArrowUpRight size={18} />
               </a>

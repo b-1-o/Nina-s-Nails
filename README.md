@@ -1,57 +1,46 @@
-# ZhuZhu Beauty & Nail Salon
+# Nina's Nails
 
-A mobile-first, quiet-luxury website for ZhuZhu Beauty & Nail Salon in North Hollywood, California.
+A mobile-first website for Nina's Nails at Vardashen Marketplace in North Hollywood, California.
+
+## Business details
+
+- **Address:** 12912 Sherman Way, North Hollywood, CA 91605
+- **Phone:** (818) 821-1186
+- **Instagram:** https://www.instagram.com/nailsbynina86/
+- **Google Maps:** https://maps.app.goo.gl/93DPF2gSKcKNkLc97
+- **Rating displayed:** 4.2 / 5 from 161 reviews, based on the Google Maps information supplied for this site
+- **Hours:** Monday–Saturday 9:30 AM–7:00 PM; Sunday 9:30 AM–5:00 PM
+
+The public rating and review count can change. Confirm current business details and holiday hours directly with the salon.
 
 ## Stack
 
 - React 19 + Vite
 - Tailwind CSS v4 through the official Vite plugin
-- Framer Motion for spring interactions, scroll reveals, accordion layout and swipe gestures
-- Lenis for smooth wheel scrolling (native touch scrolling is preserved on phones)
+- Framer Motion for scroll reveals, accordions and touch interactions
+- Lenis for smooth desktop wheel scrolling; native touch scrolling is preserved on phones
 - Lucide icons
 
 ## Development
 
+```bash
 npm install
 npm run dev
-
-Production build:
-
 npm run build
 npm run preview
+```
 
-## Booking destination
+## Booking and enquiries
 
-All booking actions use src/components/BookingWidget.jsx. It accepts a bookingUrl prop.
-
-ZhuZhu's currently published booking page is Zoca:
-
-https://zhuzhubeautynorthhollywood.zoca.com/booking
-
-To switch to Booksy, pass the salon's confirmed Booksy profile URL to bookingUrl or update BOOKING_URL in src/data.js.
-
-Booksy also offers an embedded website widget, but its code is unique to each business. The owner must copy it from their own Booksy account under Business Settings → Online Booking → Your Website. No ZhuZhu-specific Booksy widget code or Booksy profile URL was available when this version was built.
-
-## Mobile experience
-
-- Designed mobile-first around a 390px viewport and thumb-friendly 56px+ actions
-- Native horizontal swipe carousel with scroll snapping
-- No custom cursor or hover-dependent controls
-- Smart header hides while scrolling down and returns while scrolling up
-- Mobile booking bar respects iPhone safe-area insets
-- Reduced-motion preference support
-- Lenis smooths wheel scrolling on desktop while native touch scrolling remains enabled on mobile
+No verified online booking URL was supplied for this location. All appointment and service enquiries therefore use the salon's published telephone number rather than sending guests to an unrelated booking page.
 
 ## Content notes
 
-- Current weekly hours are copied from ZhuZhu's published Zoca listing and are maintained in src/data.js. Confirm special/holiday hours with the salon; the listing shows an unusual Wednesday closing time.
-- Service prices are not published in the verified source data, so the accordion directs guests to the current booking menu instead of displaying invented prices.
-- The salon's verified Instagram/Facebook profile URLs were not found. Add them to SOCIAL_LINKS in src/data.js; the footer will show only configured links.
-- Editorial photography is currently illustrative stock photography. Replace it with salon-approved photos before presenting the lookbook as a gallery of ZhuZhu's own work.
+- Service categories are descriptive; guests should call to confirm availability and prices.
+- Opening hours are based on the public listing found during the rebuild. Confirm holiday or exceptional hours directly.
+- The lookbook uses illustrative stock photography for style inspiration. Replace it with owner-approved salon photos before presenting it as Nina's Nails' own portfolio.
+- The Google rating and review count reflect the information supplied for this website and are not a live feed.
 
-## Salon
+## Local development and GitHub Pages
 
-**ZhuZhu Beauty & Nail Salon**  
-13104 1/2 Sherman Way  
-North Hollywood, CA 91605  
-(818) 863-3111
+The Vite base path is configured for the repository name: `/Nina-s-Nails/`.
