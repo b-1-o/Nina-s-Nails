@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown, ArrowLeft, ArrowRight, Clock3, MapPin, Phone, Star } from "lucide-react";
 import {
   GOOGLE_RATING,
@@ -18,15 +17,9 @@ import DirectionsChooser from "./DirectionsChooser.jsx";
 
 function Reveal({ children, className = "", delay = 0 }) {
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ type: "spring", stiffness: 100, damping: 20, delay }}
-    >
+    <div className={"reveal-on-scroll " + className} style={{ "--reveal-delay": delay + "s" }}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -58,7 +51,6 @@ export function Philosophy() {
           decoding="async"
           fetchPriority="low"
         />
-        <div className="about-visual-grain" aria-hidden="true" />
         <div className="about-stamp">
           <MapPin size={21} strokeWidth={1.4} />
           <span>FIND NINA'S NAILS</span>
@@ -85,12 +77,7 @@ export function Services() {
         {SERVICES.map((service, index) => {
           const isOpen = active === index;
           return (
-            <motion.article
-              className={"service-item" + (isOpen ? " is-open" : "")}
-              key={service.id}
-              layout
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            >
+            <article className={"service-item" + (isOpen ? " is-open" : "")} key={service.id}>
               <button
                 className="service-trigger"
                 type="button"
@@ -100,45 +87,32 @@ export function Services() {
               >
                 <span className="service-number">{service.number}</span>
                 <span className="service-name">{service.title}</span>
-                <motion.span
-                  className="service-toggle"
-                  animate={{ rotate: isOpen ? 45 : 0 }}
-                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                >
+                <span className="service-toggle">
                   <ArrowDown size={19} strokeWidth={1.4} />
-                </motion.span>
+                </span>
               </button>
 
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    id={"service-panel-" + service.id}
-                    className="service-panel"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                  >
-                    <div className="service-panel-inner">
-                      <p>{service.description}</p>
-                      <div className="service-panel-bottom">
-                        <span>{service.priceNote}</span>
-                        <BookingWidget label="Call to ask" showIcon={false} className="service-booking-link" />
-                      </div>
-                      <img
-                        src={service.image}
-                        srcSet={service.imageSrcSet}
-                        sizes="(min-width: 700px) 560px, calc(100vw - 64px)"
-                        alt={service.alt}
-                        loading="lazy"
-                        decoding="async"
-                        fetchPriority="low"
-                      />
+              {isOpen && (
+                <div id={"service-panel-" + service.id} className="service-panel service-panel-enter">
+                  <div className="service-panel-inner">
+                    <p>{service.description}</p>
+                    <div className="service-panel-bottom">
+                      <span>{service.priceNote}</span>
+                      <BookingWidget label="Call to ask" showIcon={false} className="service-booking-link" />
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.article>
+                    <img
+                      src={service.image}
+                      srcSet={service.imageSrcSet}
+                      sizes="(min-width: 700px) 560px, calc(100vw - 64px)"
+                      alt={service.alt}
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
+                    />
+                  </div>
+                </div>
+              )}
+            </article>
           );
         })}
       </div>
@@ -169,37 +143,21 @@ export function Testimonials() {
       </Reveal>
 
       <div className="review-slider">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={index}
-            className="review-card"
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.12}
-            onDragEnd={(_, info) => {
-              if (info.offset.x < -55 || info.velocity.x < -450) next();
-              if (info.offset.x > 55 || info.velocity.x > 450) previous();
-            }}
-            initial={{ opacity: 0, x: 22 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -18 }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          >
-            <span className="review-quote-mark" aria-hidden="true">“</span>
-            <blockquote>{review.quote}</blockquote>
-            <div className="review-author">
-              <span className="review-author-line" />
-              <strong>{review.name}</strong>
-              <small>{review.detail}</small>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+        <div className="review-card review-card-enter" key={index}>
+          <span className="review-quote-mark" aria-hidden="true">“</span>
+          <blockquote>{review.quote}</blockquote>
+          <div className="review-author">
+            <span className="review-author-line" />
+            <strong>{review.name}</strong>
+            <small>{review.detail}</small>
+          </div>
+        </div>
 
         <div className="review-controls">
           <span>0{index + 1} <i>/</i> 0{TESTIMONIALS.length}</span>
           <div>
-            <motion.button type="button" whileTap={{ scale: 0.88 }} onClick={previous} aria-label="Previous review summary"><ArrowLeft size={18} /></motion.button>
-            <motion.button type="button" whileTap={{ scale: 0.88 }} onClick={next} aria-label="Next review summary"><ArrowRight size={18} /></motion.button>
+            <button type="button" onClick={previous} aria-label="Previous review summary"><ArrowLeft size={18} /></button>
+            <button type="button" onClick={next} aria-label="Next review summary"><ArrowRight size={18} /></button>
           </div>
         </div>
       </div>
@@ -226,9 +184,7 @@ function getSalonStatus(now = new Date()) {
   const minute = Number(parts.find((part) => part.type === "minute")?.value || 0);
   const schedule = HOURS.find((item) => item.day.slice(0, 3) === weekday);
 
-  if (!schedule || schedule.open === null) {
-    return { isOpen: false, label: "Closed today" };
-  }
+  if (!schedule || schedule.open === null) return { isOpen: false, label: "Closed today" };
 
   const [openHour, openMinute] = schedule.open.split(":").map(Number);
   const [closeHour, closeMinute] = schedule.close.split(":").map(Number);
@@ -244,12 +200,8 @@ function getSalonStatus(now = new Date()) {
     return mins ? displayHour + ":" + String(mins).padStart(2, "0") + " " + suffix : displayHour + " " + suffix;
   };
 
-  if (currentTime >= openingTime && currentTime < closingTime) {
-    return { isOpen: true, label: "Open now · Until " + formatTime(closingTime) };
-  }
-  if (currentTime < openingTime) {
-    return { isOpen: false, label: "Opens today · " + formatTime(openingTime) };
-  }
+  if (currentTime >= openingTime && currentTime < closingTime) return { isOpen: true, label: "Open now · Until " + formatTime(closingTime) };
+  if (currentTime < openingTime) return { isOpen: false, label: "Opens today · " + formatTime(openingTime) };
   return { isOpen: false, label: "Closed for today" };
 }
 

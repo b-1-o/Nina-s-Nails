@@ -1,47 +1,29 @@
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import Lenis from "lenis";
 import App from "./App.jsx";
 import "./styles.css";
 
 function Root() {
   useEffect(() => {
+    const targets = document.querySelectorAll(".reveal-on-scroll");
+    if (!targets.length) return undefined;
+
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return undefined;
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      targets.forEach((target) => target.classList.add("is-visible"));
+      return undefined;
+    }
 
-    const lenis = new Lenis({
-      lerp: 0.085,
-      smoothWheel: true,
-      smoothTouch: false,
-      anchors: true,
-    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -5% 0px" });
 
-    let frameId = 0;
-    const raf = (time) => {
-      if (document.visibilityState !== "visible") {
-        frameId = 0;
-        return;
-      }
-      lenis.raf(time);
-      frameId = window.requestAnimationFrame(raf);
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        if (frameId) window.cancelAnimationFrame(frameId);
-        frameId = 0;
-      } else if (!frameId) {
-        frameId = window.requestAnimationFrame(raf);
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    frameId = window.requestAnimationFrame(raf);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      if (frameId) window.cancelAnimationFrame(frameId);
-      lenis.destroy();
-    };
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
   }, []);
 
   return <App />;

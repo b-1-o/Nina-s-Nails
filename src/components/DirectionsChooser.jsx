@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Map, MapPin, X } from "lucide-react";
 import { APPLE_MAPS_URL, GOOGLE_MAPS_URL, GEO_MAPS_URL } from "../data.js";
 
@@ -49,90 +48,76 @@ export default function DirectionsChooser({
 
   return (
     <>
-      <motion.button
+      <button
         ref={triggerRef}
         type="button"
         className={className}
         onClick={() => setIsOpen(true)}
-        whileTap={{ scale: 0.98 }}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
       >
         {showIcon && <MapPin size={18} strokeWidth={1.6} aria-hidden="true" />}
         <span>{label}</span>
         {showArrow && <ArrowUpRight size={16} strokeWidth={1.6} aria-hidden="true" />}
-      </motion.button>
+      </button>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="directions-overlay"
-            role="presentation"
-            onClick={() => setIsOpen(false)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+      {isOpen && (
+        <div className="directions-overlay" role="presentation" onClick={() => setIsOpen(false)}>
+          <section
+            ref={dialogRef}
+            className="directions-dialog directions-dialog-enter"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="directions-dialog-title"
+            aria-describedby="directions-dialog-description"
+            onClick={(event) => event.stopPropagation()}
           >
-            <motion.section
-              ref={dialogRef}
-              className="directions-dialog"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="directions-dialog-title"
-              aria-describedby="directions-dialog-description"
-              onClick={(event) => event.stopPropagation()}
-              initial={{ opacity: 0, y: 18, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 12, scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 260, damping: 26 }}
+            <button
+              type="button"
+              className="directions-dialog-close"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close map options"
             >
-              <button
-                type="button"
-                className="directions-dialog-close"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close map options"
-              >
-                <X size={19} />
-              </button>
-              <span className="eyebrow"><i /> FIND YOUR WAY</span>
-              <h3 id="directions-dialog-title">Choose your map app.</h3>
-              <p id="directions-dialog-description">
-                Open Nina's Nails in the map app you prefer. If it is not installed,
-                the map service may open in your browser.
-              </p>
+              <X size={19} />
+            </button>
+            <span className="eyebrow"><i /> FIND YOUR WAY</span>
+            <h3 id="directions-dialog-title">Choose your map app.</h3>
+            <p id="directions-dialog-description">
+              Open Nina's Nails in the map app you prefer. If it is not installed,
+              the map service may open in your browser.
+            </p>
 
-              <a className="directions-choice" href={APPLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
-                <span className="directions-choice-icon directions-choice-icon--apple"><MapPin size={21} /></span>
+            <a className="directions-choice" href={APPLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
+              <span className="directions-choice-icon directions-choice-icon--apple"><MapPin size={21} /></span>
+              <span className="directions-choice-copy">
+                <strong>Apple Maps</strong>
+                <small>Directions with Apple Maps</small>
+              </span>
+              <ArrowUpRight size={18} />
+            </a>
+
+            <a className="directions-choice" href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
+              <span className="directions-choice-icon directions-choice-icon--google"><Map size={21} /></span>
+              <span className="directions-choice-copy">
+                <strong>Google Maps</strong>
+                <small>Directions with Google Maps</small>
+              </span>
+              <ArrowUpRight size={18} />
+            </a>
+
+            {supportsAndroidMapIntent && (
+              <a className="directions-choice" href={GEO_MAPS_URL}>
+                <span className="directions-choice-icon directions-choice-icon--other"><MapPin size={21} /></span>
                 <span className="directions-choice-copy">
-                  <strong>Apple Maps</strong>
-                  <small>Directions with Apple Maps</small>
+                  <strong>Other map apps</strong>
+                  <small>Let your device choose an installed app</small>
                 </span>
                 <ArrowUpRight size={18} />
               </a>
-
-              <a className="directions-choice" href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer">
-                <span className="directions-choice-icon directions-choice-icon--google"><Map size={21} /></span>
-                <span className="directions-choice-copy">
-                  <strong>Google Maps</strong>
-                  <small>Directions with Google Maps</small>
-                </span>
-                <ArrowUpRight size={18} />
-              </a>
-
-              {supportsAndroidMapIntent && (
-                <a className="directions-choice" href={GEO_MAPS_URL}>
-                  <span className="directions-choice-icon directions-choice-icon--other"><MapPin size={21} /></span>
-                  <span className="directions-choice-copy">
-                    <strong>Other map apps</strong>
-                    <small>Let your device choose an installed app</small>
-                  </span>
-                  <ArrowUpRight size={18} />
-                </a>
-              )}
-            </motion.section>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            )}
+          </section>
+        </div>
+      )}
     </>
   );
 }

@@ -15,7 +15,7 @@
 @layer base {
   * { box-sizing: border-box; }
   html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
     scroll-padding-top: 92px;
     background: #fff;
     -webkit-text-size-adjust: 100%;
@@ -220,14 +220,6 @@
     linear-gradient(180deg, rgba(46,32,38,.16) 0%, rgba(46,32,38,.22) 30%, rgba(46,32,38,.62) 100%),
     linear-gradient(90deg, rgba(46,32,38,.38), rgba(46,32,38,.035) 85%);
 }
-.hero-grain, .gallery-film-grain, .about-visual-grain {
-  position: absolute;
-  pointer-events: none;
-  opacity: .16;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='.38'/%3E%3C/svg%3E");
-  mix-blend-mode: soft-light;
-}
-.hero-grain { z-index: -1; inset: 0; }
 .hero-content { width: 100%; max-width: 520px; margin: 0 auto; }
 .hero-location {
   display: flex;
@@ -1155,4 +1147,50 @@
   .booking-cta-wrap { grid-column: 2; grid-row: 2; align-self: end; }
   .directions-link { max-width: 370px; min-height: 64px; }
   .hours-list { grid-template-columns: 1fr 1fr; column-gap: 28px; max-width: none; }
+}
+
+
+/* Lightweight motion: one shared IntersectionObserver, no animation runtime. */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity .5s ease var(--reveal-delay, 0s), transform .5s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0s);
+}
+.reveal-on-scroll.is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
+.hero-reveal {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  animation: hero-enter .65s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay: var(--hero-delay, 0ms);
+}
+@keyframes hero-enter { to { opacity: 1; transform: translate3d(0,0,0); } }
+
+.site-header { transition: transform .22s ease, opacity .22s ease; }
+.site-header.is-hidden { transform: translate3d(0,-120%,0); opacity: 0; pointer-events: none; }
+.mobile-menu { animation: menu-enter .18s ease both; }
+@keyframes menu-enter { from { opacity: 0; transform: translateY(-7px); } to { opacity: 1; transform: translateY(0); } }
+
+.service-toggle { transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+.service-item.is-open .service-toggle { transform: rotate(45deg); }
+.service-panel-enter { animation: panel-enter .22s ease both; }
+@keyframes panel-enter { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+.review-card-enter { animation: review-enter .24s ease both; }
+@keyframes review-enter { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+.lookbook-lightbox { animation: overlay-enter .16s ease both; }
+.lookbook-lightbox-panel { animation: dialog-enter .2s ease both; }
+.directions-overlay { animation: overlay-enter .14s ease both; }
+.directions-dialog-enter { animation: dialog-enter .18s ease both; }
+@keyframes overlay-enter { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dialog-enter { from { opacity: 0; transform: translateY(10px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal-on-scroll, .hero-reveal { opacity: 1; transform: none; animation: none; transition: none; }
+}
+
+/* Let the browser defer painting distant sections until they approach the viewport. */
+.about-section, .services-section, .gallery-section, .reviews-section, .booking-section, .site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 850px;
 }
