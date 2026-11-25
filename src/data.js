@@ -70,7 +70,8 @@ export const SERVICES = [
     title: "Full Set Extensions",
     description: "Beautiful length with balance, structure and a finish that feels like you. Choose your preferred shape, length and final expression.",
     priceNote: "View current pricing when booking",
-    image: "https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=1200&q=88",
+    image: detailPhoto.src,
+    imageSrcSet: detailPhoto.srcSet,
     alt: "Sculpted nails with a refined glossy finish",
   },
 ];
